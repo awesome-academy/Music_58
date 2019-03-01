@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Music</string>
+    <string name="string_hot_today"><![CDATA[Hot Today >]]></string>
+    <string name="string_load_more">Load more ...</string>
+    <string name="string_genres"><![CDATA[Genres >]]></string>
+    <string name="string_search">Search</string>
+    <string name="string_home">home</string>
+    <string name="string_favorite">favorite</string>
+    <string name="string_local">local</string>
 </resources>
