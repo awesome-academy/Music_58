@@ -7,4 +7,5 @@
     <string name="string_home">home</string>
     <string name="string_favorite">favorite</string>
     <string name="string_local">local</string>
+    <string name="string_keyword">Keyword</string>
 </resources>
