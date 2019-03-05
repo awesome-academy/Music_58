@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.search.SearchActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -25,11 +25,11 @@
         android:background="@color/color_text_white"
         android:scaleType="center"
         android:src="@drawable/ic_search_black_24dp"
-        app:layout_constraintBottom_toTopOf="@id/view_pager"
+        app:layout_constraintBottom_toTopOf="@id/frame_result"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/text_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -38,47 +38,18 @@
         android:layout_marginBottom="@dimen/dp_8"
         android:background="@color/color_text_white"
         android:gravity="fill_vertical"
-        android:hint="@string/string_search"
+        android:hint="@string/string_keyword"
         android:textSize="@dimen/sp_20"
-        app:layout_constraintBottom_toTopOf="@id/view_pager"
+        app:layout_constraintBottom_toTopOf="@id/frame_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/image_search"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_50"
-        android:background="@color/color_background_tablayout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_home_white_24dp"
-            android:text="@string/string_home" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_favorite_white_24dp"
-            android:text="@string/string_favorite" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_playlist_play_white_24dp"
-            android:text="@string/string_local" />
-
-    </android.support.design.widget.TabLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <FrameLayout
+        android:id="@+id/frame_result"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/tab_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tool_bar" />
