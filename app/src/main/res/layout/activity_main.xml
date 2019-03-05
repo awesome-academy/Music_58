@@ -9,7 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="0dp"
-        android:layout_height="@dimen/dp_60"
+        android:layout_height="wrap_content"
         android:background="@color/color_background_tablayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="0dp"
-        android:layout_height="@dimen/dp_50"
+        android:layout_height="wrap_content"
         android:background="@color/color_background_tablayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,20 +57,17 @@
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_home_white_24dp"
-            android:text="@string/string_home" />
+            android:icon="@drawable/ic_home_white_24dp" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_favorite_white_24dp"
-            android:text="@string/string_favorite" />
+            android:icon="@drawable/ic_favorite_white_24dp" />
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_playlist_play_white_24dp"
-            android:text="@string/string_local" />
+            android:icon="@drawable/ic_playlist_play_white_24dp" />
 
     </android.support.design.widget.TabLayout>
 

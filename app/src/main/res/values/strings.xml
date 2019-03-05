@@ -8,4 +8,7 @@
     <string name="string_favorite">favorite</string>
     <string name="string_local">local</string>
     <string name="string_keyword">Keyword</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="string_music_type">MUSIC TYPE</string>
 </resources>
