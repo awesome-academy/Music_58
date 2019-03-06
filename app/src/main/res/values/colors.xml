@@ -6,4 +6,5 @@
     <color name="color_text_black">#000</color>
     <color name="color_background_tablayout">#7A619C</color>
     <color name="color_text_white">#FFFFFF</color>
+    <color name="color_background_textview">#ba2346</color>
 </resources>
