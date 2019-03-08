@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/image_local_song"
+        android:id="@+id/image_detail_genre"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_60"
         android:layout_marginStart="@dimen/dp_8"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_song_local_name"
+        android:id="@+id/text_track_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
@@ -27,13 +27,13 @@
         android:textColor="@color/color_text_black"
         android:textSize="@dimen/sp_15"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/text_artist_local"
+        app:layout_constraintBottom_toTopOf="@+id/text_artist_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_local_song"
+        app:layout_constraintStart_toEndOf="@+id/image_detail_genre"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_artist_local"
+        android:id="@+id/text_artist_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
@@ -43,7 +43,7 @@
         android:textColor="@color/color_text_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_local_song"
-        app:layout_constraintTop_toBottomOf="@+id/text_song_local_name" />
+        app:layout_constraintStart_toEndOf="@+id/image_detail_genre"
+        app:layout_constraintTop_toBottomOf="@+id/text_track_name" />
 
 </android.support.constraint.ConstraintLayout>

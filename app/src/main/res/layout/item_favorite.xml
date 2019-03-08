@@ -8,8 +8,11 @@
         android:id="@+id/image_favorite_song"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_60"
-        android:layout_margin="@dimen/dp_8"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -17,23 +20,30 @@
         android:id="@+id/text_song_favorite_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_8"
+        android:maxLines="1"
         android:textColor="@color/color_text_black"
         android:textSize="@dimen/sp_15"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/text_artist_favorite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_favorite_song"
+        app:layout_constraintStart_toEndOf="@+id/image_favorite_song"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_artist_favorite"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
         android:textColor="@color/color_text_black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_favorite_song"
-        app:layout_constraintTop_toBottomOf="@id/text_song_favorite_name" />
+        app:layout_constraintStart_toEndOf="@+id/image_favorite_song"
+        app:layout_constraintTop_toBottomOf="@+id/text_song_favorite_name" />
 
 </android.support.constraint.ConstraintLayout>

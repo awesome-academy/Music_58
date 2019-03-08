@@ -10,24 +10,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.music_58.R;
+import com.example.music_58.data.model.Genre;
+
+import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
-    private static final String[] GENRES_NAME = {"ALL", "AUDIO", "ALTERNATIVEROCK", "AMBIENT",
-            "CLASSICAL", "COUNTRY"};
-    private static final int[] GENRES_IMAGE = {
-            R.drawable.genre_all,
-            R.drawable.genre_audio,
-            R.drawable.genre_alternative_rock,
-            R.drawable.genre_ambient,
-            R.drawable.genre_classical,
-            R.drawable.genre_country
-    };
+    private List<Genre> mGenres;
     private GenreClickListener mListener;
     private LayoutInflater mInflater;
 
-    public GenreAdapter(Context context, GenreClickListener listener) {
+    public GenreAdapter(Context context, GenreClickListener listener, List<Genre> genres) {
         mInflater = LayoutInflater.from(context);
         mListener = listener;
+        mGenres = genres;
     }
 
     @Override
@@ -37,18 +32,19 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
     }
 
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.setData(position);
+        viewHolder.setData(mGenres.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return GENRES_NAME.length;
+        return (mGenres != null) ? mGenres.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mGenreImage;
         private TextView mTextGenreName;
         private GenreClickListener mListener;
+        private Genre mGenre;
 
         public ViewHolder(View itemView, GenreClickListener listener) {
             super(itemView);
@@ -57,23 +53,24 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
             mListener = listener;
         }
 
-        public void setData(int position) {
+        public void setData(Genre genre) {
             Glide.with(itemView.getContext())
-                    .load(GENRES_IMAGE[position])
+                    .load(genre.getPhoto())
                     .centerCrop()
                     .placeholder(R.drawable.genre_all)
                     .into(mGenreImage);
-            mTextGenreName.setText(GENRES_NAME[position]);
+            mTextGenreName.setText(genre.getName());
             itemView.setOnClickListener(this);
+            mGenre = genre;
         }
 
         @Override
         public void onClick(View v) {
-            mListener.onItemClick(this.getLayoutPosition());
+            mListener.onItemClick(mGenre);
         }
     }
 
     public interface GenreClickListener {
-        void onItemClick(int position);
+        void onItemClick(Genre genre);
     }
 }
