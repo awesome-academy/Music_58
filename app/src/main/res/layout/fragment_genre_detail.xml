@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_text_white">
+    android:background="@color/color_text_white"
+    android:clickable="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -30,7 +31,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="@dimen/dp_80"
                 android:background="@drawable/custom_gradient_text"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -65,10 +66,17 @@
         android:background="@drawable/custom_text_view"
         android:elevation="@dimen/dp_8"
         android:gravity="center"
-        android:text="@string/string_random"
+        android:text="@string/string_shuffle_play"
         android:textColor="@color/color_text_white"
         android:textSize="@dimen/sp_20"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|center" />
+
+    <ProgressBar
+        android:id="@+id/proress_load_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

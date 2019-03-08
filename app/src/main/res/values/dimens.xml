@@ -18,4 +18,8 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="sp_16">16sp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
 </resources>
