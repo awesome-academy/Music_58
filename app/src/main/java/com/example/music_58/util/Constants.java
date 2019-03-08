@@ -11,10 +11,10 @@ public class Constants {
     public static final String NAME_STREAM = "stream";
     public static final String SPLASH = "/";
     public static final String QUESTION_MARK = "?";
-    public static final int INDEX_UNIT = 1;
+    public static final int INDEX_UNIT = 0;
     public static final int NEXT_SONG = 1;
     public static final int PREVIOUS_SONG = -1;
-    public static final int LIMIT = 10;
+    public static final int SONG_LIMIT = 20;
     public static final String EXTRA_TRACK = "track";
     public static final String EXTRA_GENRES = "genres";
     public static final String EXTRA_TITLE = "title";
