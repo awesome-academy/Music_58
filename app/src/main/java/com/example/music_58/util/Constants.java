@@ -20,4 +20,5 @@ public class Constants {
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_ERROR = "error";
     public static final String EXTRA_PROGRESS = "progress";
+    public static final String EXTRA_ROTATION = "rotation";
 }

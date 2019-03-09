@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.music_58.R;
+import com.example.music_58.data.model.Genre;
 import com.example.music_58.data.model.Track;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
         private TextView mTextSongName;
         private ImageView mImageDownload;
         private OnTrackClickListener mListener;
+        private Track mTrack;
 
         public ViewHolder(View itemView, OnTrackClickListener listener) {
             super(itemView);
@@ -85,6 +87,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
             } else {
                 mImageDownload.setVisibility(View.INVISIBLE);
             }
+            mTrack = track;
         }
 
         @Override

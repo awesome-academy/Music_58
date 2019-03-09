@@ -10,7 +10,6 @@ public abstract class BaseLoadMoreFragment extends Fragment {
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLinearLayoutManager;
     protected boolean mIsScrolling = false;
-    protected int mCurrentItem;
     private int mTotalItem;
     private int mScrollOutItem;
 
@@ -27,10 +26,9 @@ public abstract class BaseLoadMoreFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mCurrentItem = mLinearLayoutManager.getChildCount();
                 mTotalItem = mLinearLayoutManager.getItemCount();
-                mScrollOutItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-                if (mIsScrolling && (mCurrentItem + mScrollOutItem == mTotalItem)) {
+                mScrollOutItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (mScrollOutItem == mTotalItem - 1) {
                     loadMoreData();
                 }
             }

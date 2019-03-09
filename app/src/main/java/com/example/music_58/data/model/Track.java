@@ -1,6 +1,9 @@
 package com.example.music_58.data.model;
 
-public class Track {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Track implements Parcelable {
     private int mId;
     private String mTitle;
     private int mDuration;
@@ -19,6 +22,33 @@ public class Track {
         mTitle = title;
         mArtist = artist;
     }
+
+    protected Track(Parcel in) {
+        mId = in.readInt();
+        mTitle = in.readString();
+        mDuration = in.readInt();
+        mGenre = in.readString();
+        mDescription = in.readString();
+        mStreamUrl = in.readString();
+        mDownloadUrl = in.readString();
+        mIsDownloadable = in.readByte() != 0;
+        mArtist = in.readString();
+        mAlbumTitle = in.readString();
+        mArtworkUrl = in.readString();
+        mIsFavorite = in.readByte() != 0;
+    }
+
+    public static final Creator<Track> CREATOR = new Creator<Track>() {
+        @Override
+        public Track createFromParcel(Parcel in) {
+            return new Track(in);
+        }
+
+        @Override
+        public Track[] newArray(int size) {
+            return new Track[size];
+        }
+    };
 
     public int getId() {
         return mId;
@@ -114,5 +144,26 @@ public class Track {
 
     public void setFavorite(boolean favorite) {
         mIsFavorite = favorite;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mTitle);
+        dest.writeInt(mDuration);
+        dest.writeString(mGenre);
+        dest.writeString(mDescription);
+        dest.writeString(mStreamUrl);
+        dest.writeString(mDownloadUrl);
+        dest.writeByte((byte) (mIsDownloadable ? 1 : 0));
+        dest.writeString(mArtist);
+        dest.writeString(mAlbumTitle);
+        dest.writeString(mArtworkUrl);
+        dest.writeByte((byte) (mIsFavorite ? 1 : 0));
     }
 }

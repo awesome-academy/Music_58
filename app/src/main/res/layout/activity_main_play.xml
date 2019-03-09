@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_30"
-        android:padding="@dimen/dp_16"
+        android:padding="@dimen/dp_10"
         android:src="@drawable/ic_arrow_back_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,9 +36,10 @@
         app:layout_constraintTop_toTopOf="@id/image_back" />
 
     <TextView
-        android:id="@+id/text_track"
+        android:id="@+id/text_track_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_8"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="@dimen/dp_8"
@@ -59,7 +60,7 @@
         android:textColor="@color/color_background_recycler"
         app:layout_constraintEnd_toStartOf="@id/image_tracks"
         app:layout_constraintStart_toEndOf="@id/image_back"
-        app:layout_constraintTop_toBottomOf="@id/text_track" />
+        app:layout_constraintTop_toBottomOf="@id/text_track_name" />
 
     <ImageView
         android:id="@+id/image_artwork"
@@ -161,6 +162,7 @@
         android:id="@+id/image_shuffle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_4"
         android:padding="@dimen/dp_8"
         android:src="@drawable/ic_no_shuffle_white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -202,11 +204,13 @@
         android:id="@+id/image_loop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_4"
         android:padding="@dimen/dp_8"
         android:src="@drawable/ic_not_loop_white"
-        app:layout_constraintBottom_toBottomOf="@id/image_shuffle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/image_next" />
+        app:layout_constraintStart_toEndOf="@+id/image_next"
+        app:layout_constraintTop_toTopOf="@id/view" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guide_line_left"
