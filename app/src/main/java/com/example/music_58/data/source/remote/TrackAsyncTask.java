@@ -18,6 +18,7 @@ public class TrackAsyncTask extends BaseAsyncTask<Track> {
     private static final String KEY_USER_NAME = "username";
     private static final String TITLE = "title";
     private static final String TRACK = "track";
+    private static final String DOWNLOADABLE = "downloadable";
 
     public TrackAsyncTask(TrackDataSource.DataCallback<Track> callback) {
         super(callback);
@@ -36,7 +37,10 @@ public class TrackAsyncTask extends BaseAsyncTask<Track> {
                 String title = track.getString(TITLE);
                 String artworkUrl = track.getString(ARTWORK_URL);
                 String artist = track.getJSONObject(KEY_USER).getString(KEY_USER_NAME);
+                boolean isDownloadable = track.getBoolean(DOWNLOADABLE);
                 Track object = new Track(id, title, artist);
+                object.setArtworkUrl(artworkUrl);
+                object.setDownloadable(isDownloadable);
                 tracks.add(object);
             }
         } catch (JSONException e) {

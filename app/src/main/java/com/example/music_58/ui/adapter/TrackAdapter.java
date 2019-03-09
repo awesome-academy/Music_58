@@ -18,16 +18,18 @@ import java.util.List;
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> {
     private List<Track> mTracks;
     private LayoutInflater mInflater;
+    OnTrackClickListener mListener;
 
-    public TrackAdapter(Context context, List<Track> tracks) {
+    public TrackAdapter(Context context, List<Track> tracks, OnTrackClickListener listener) {
         mTracks = tracks;
         mInflater = LayoutInflater.from(context);
+        mListener = listener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = mInflater.inflate(R.layout.item_detail_genre, viewGroup, false);
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, mListener);
     }
 
     @Override
@@ -55,23 +57,43 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
         return (mTracks != null) ? mTracks.size() : 0;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mImageGenreDetail;
         private TextView mTextNameArtist;
         private TextView mTextSongName;
+        private ImageView mImageDownload;
+        private OnTrackClickListener mListener;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, OnTrackClickListener listener) {
             super(itemView);
             mImageGenreDetail = itemView.findViewById(R.id.image_detail_genre);
             mTextNameArtist = itemView.findViewById(R.id.text_artist_name);
             mTextSongName = itemView.findViewById(R.id.text_track_name);
+            mImageDownload = itemView.findViewById(R.id.image_download);
+            mListener = listener;
+            itemView.setOnClickListener(this);
         }
 
         public void setData(Track track) {
-            Glide.with(itemView.getContext()).load(R.drawable.genre_classical)
+            Glide.with(itemView.getContext()).load(track.getArtworkUrl())
+                    .placeholder(R.drawable.genre_classical)
                     .apply(RequestOptions.circleCropTransform()).into(mImageGenreDetail);
             mTextNameArtist.setText(track.getArtist());
             mTextSongName.setText(track.getTitle());
+            if (track.isDownloadable()) {
+                mImageDownload.setVisibility(View.VISIBLE);
+            } else {
+                mImageDownload.setVisibility(View.INVISIBLE);
+            }
         }
+
+        @Override
+        public void onClick(View v) {
+            mListener.onTrackClick(this.getLayoutPosition());
+        }
+    }
+
+    public interface OnTrackClickListener {
+        void onTrackClick(int position);
     }
 }

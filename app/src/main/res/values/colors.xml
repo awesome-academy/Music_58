@@ -7,4 +7,6 @@
     <color name="color_background_tablayout">#7A619C</color>
     <color name="color_text_white">#FFFFFF</color>
     <color name="color_background_textview">#ba2346</color>
+    <color name="color_background_recycler">#dcffffff</color>
+    <color name="color_splash_screen">#E4DBDB</color>
 </resources>
