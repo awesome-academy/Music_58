@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.music_58.R;
@@ -21,14 +20,17 @@ import com.example.music_58.data.source.local.TrackLocalDataSource;
 import com.example.music_58.data.source.remote.TrackRemoteDataSource;
 import com.example.music_58.ui.BaseLoadMoreFragment;
 import com.example.music_58.ui.adapter.TrackAdapter;
+import com.example.music_58.ui.main_play.MainPlayActivity;
 import com.example.music_58.util.Constants;
 import com.example.music_58.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GenreDetailFragment extends BaseLoadMoreFragment implements
-        GenreDetailContract.View, SwipeRefreshLayout.OnRefreshListener {
+        GenreDetailContract.View, SwipeRefreshLayout.OnRefreshListener,
+        TrackAdapter.OnTrackClickListener, View.OnClickListener {
     private static final int OFFSET = 20;
     private TrackAdapter mAdapter;
     private RecyclerView mRecyclerTopSongs;
@@ -69,7 +71,6 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
 
     @Override
     public void onLoadTracksFail(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         mProgressBar.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(false);
     }
@@ -96,7 +97,7 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
     public void initViewLoadMore() {
         mRecyclerView = mView.findViewById(R.id.recycler_top_songs);
         mTracks = new ArrayList<>();
-        mAdapter = new TrackAdapter(getContext(), mTracks);
+        mAdapter = new TrackAdapter(getContext(), mTracks, this);
         mRecyclerView.setAdapter(mAdapter);
         mLinearLayoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
@@ -118,6 +119,18 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
         return rootView;
     }
 
+    @Override
+    public void onTrackClick(int position) {
+        startActivity(MainPlayActivity.getIntent(getContext(), mTracks.get(position)));
+    }
+
+    @Override
+    public void onClick(View v) {
+        Random random = new Random();
+        int position = random.nextInt(mTracks.size());
+        startActivity(MainPlayActivity.getIntent(getContext(), mTracks.get(position)));
+    }
+
     private void initPresenter() {
         TrackRepository repository = TrackRepository.getInstance(
                 TrackRemoteDataSource.getInstance(),
@@ -130,13 +143,14 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
         mTracks = new ArrayList<>();
         initPresenter();
         mRecyclerTopSongs = rootView.findViewById(R.id.recycler_top_songs);
-        mAdapter = new TrackAdapter(getContext(), mTracks);
+        mAdapter = new TrackAdapter(getContext(), mTracks, this);
         mRecyclerTopSongs.setAdapter(mAdapter);
         mRecyclerTopSongs.setHasFixedSize(true);
         mRecyclerTopSongs.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
         mTextGenreName = rootView.findViewById(R.id.text_music_type);
         mTextRandomPlay = rootView.findViewById(R.id.text_random_play);
+        mTextRandomPlay.setOnClickListener(this);
         mGenreImage = rootView.findViewById(R.id.image_music_type);
         mProgressBar = rootView.findViewById(R.id.proress_load_more);
         mSwipeRefreshLayout = rootView.findViewById(R.id.swiperefresh);
