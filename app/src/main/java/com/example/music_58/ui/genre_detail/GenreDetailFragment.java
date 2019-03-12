@@ -1,6 +1,10 @@
 package com.example.music_58.ui.genre_detail;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.music_58.R;
@@ -18,6 +23,7 @@ import com.example.music_58.data.model.Track;
 import com.example.music_58.data.repository.TrackRepository;
 import com.example.music_58.data.source.local.TrackLocalDataSource;
 import com.example.music_58.data.source.remote.TrackRemoteDataSource;
+import com.example.music_58.service.MediaPlayerService;
 import com.example.music_58.ui.BaseLoadMoreFragment;
 import com.example.music_58.ui.adapter.TrackAdapter;
 import com.example.music_58.ui.main_play.MainPlayActivity;
@@ -27,6 +33,8 @@ import com.example.music_58.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static android.content.Context.BIND_AUTO_CREATE;
 
 public class GenreDetailFragment extends BaseLoadMoreFragment implements
         GenreDetailContract.View, SwipeRefreshLayout.OnRefreshListener,
@@ -38,6 +46,7 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
     private TextView mTextRandomPlay;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ProgressBar mProgressBar;
+    private Toolbar mToolbar;
     private ImageView mGenreImage;
     private List<Track> mTracks;
     private int mOffset;
@@ -45,6 +54,20 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
     private String mGenreApi;
     private GenreDetailContract.Presenter mPresenter;
     private View mView;
+    private MediaPlayerService mService;
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) iBinder;
+            mService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            getContext().unbindService(mConnection);
+        }
+    };
 
     public GenreDetailFragment() {
 
@@ -67,6 +90,11 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
             mAdapter.addTracks(tracks);
             mProgressBar.setVisibility(View.GONE);
         }
+        Intent serviceIntent = MediaPlayerService.getPlayMusicServiceIntent(getContext());
+        if (mService == null) {
+            getContext().startService(serviceIntent);
+        }
+        getContext().bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -155,6 +183,14 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
         mProgressBar = rootView.findViewById(R.id.proress_load_more);
         mSwipeRefreshLayout = rootView.findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mToolbar = rootView.findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     private void initData() {

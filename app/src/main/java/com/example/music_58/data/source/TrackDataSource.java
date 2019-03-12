@@ -18,7 +18,7 @@ public interface TrackDataSource {
 
         void getFavoriteTracks(DataCallback<Track> callback);
 
-        void addFavoriteTrack(Track track, DataCallback<Boolean> callback);
+        void addFavoriteTrack(Track track, DataCallback<String> callback);
 
         void deleteFavoriteTrack(Track track, DataCallback<Boolean> callback);
 

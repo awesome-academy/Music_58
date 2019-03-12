@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.AbsListView;
-import android.widget.ProgressBar;
 
 public abstract class BaseLoadMoreFragment extends Fragment {
+    private static final int NUMBER_1 = 1;
     protected RecyclerView mRecyclerView;
     protected LinearLayoutManager mLinearLayoutManager;
     protected boolean mIsScrolling = false;
@@ -28,7 +28,7 @@ public abstract class BaseLoadMoreFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 mTotalItem = mLinearLayoutManager.getItemCount();
                 mScrollOutItem = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if (mScrollOutItem == mTotalItem - 1) {
+                if (mScrollOutItem == mTotalItem - NUMBER_1) {
                     loadMoreData();
                 }
             }
