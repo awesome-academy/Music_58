@@ -38,7 +38,7 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
     }
 
     @Override
-    public void addFavoriteTrack(Track track, DataCallback<Boolean> callback) {
+    public void addFavoriteTrack(Track track, DataCallback<String> callback) {
         mLocalDataSource.addFavoriteTrack(track, callback);
     }
 

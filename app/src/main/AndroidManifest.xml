@@ -14,6 +14,10 @@
         android:roundIcon="@drawable/ic_start"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".service.MediaPlayerService"
+            android:enabled="true" />
+
         <activity android:name=".ui.main_play.MainPlayActivity" />
         <activity android:name=".ui.search.SearchActivity" />
         <activity

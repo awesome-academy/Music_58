@@ -35,7 +35,7 @@ public class TrackLocalDataSource implements TrackDataSource.Local {
     }
 
     @Override
-    public void addFavoriteTrack(Track track, TrackDataSource.DataCallback<Boolean> callback) {
+    public void addFavoriteTrack(Track track, TrackDataSource.DataCallback<String> callback) {
 
     }
 
