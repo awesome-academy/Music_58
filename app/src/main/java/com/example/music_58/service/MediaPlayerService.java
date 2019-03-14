@@ -161,7 +161,7 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
 
     @Override
     public int getSong() {
-        return mMediaPlayerManager.getSong();
+        return mMediaPlayerManager.getCurrentPositionSong();
     }
 
     @Override
