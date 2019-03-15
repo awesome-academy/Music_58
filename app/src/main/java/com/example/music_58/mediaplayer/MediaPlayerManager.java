@@ -7,6 +7,7 @@ import android.net.Uri;
 
 import com.example.music_58.data.model.Track;
 import com.example.music_58.service.MediaPlayerController;
+import com.example.music_58.service.StatusPlayerType;
 import com.example.music_58.util.Constants;
 
 import java.io.IOException;

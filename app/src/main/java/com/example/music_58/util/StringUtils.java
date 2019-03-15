@@ -18,4 +18,11 @@ public class StringUtils {
                 Constants.PARAMETER_LIMIT, String.valueOf(Constants.SONG_LIMIT),
                 Constants.PARAMETER_OFFSET, String.valueOf(offset));
     }
+
+    public static String initStreamApi(long trackId) {
+        return StringUtils.append(Constants.BASE_URL_TRACK, Constants.SPLASH,
+                String.valueOf(trackId), Constants.SPLASH,
+                Constants.NAME_STREAM, Constants.QUESTION_MARK,
+                Constants.CLIENT_ID, BuildConfig.ApiKey);
+    }
 }

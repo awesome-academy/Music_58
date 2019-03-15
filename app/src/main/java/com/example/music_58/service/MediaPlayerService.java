@@ -150,8 +150,8 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
     }
 
     @Override
-    public void seek(int possition) {
-        mMediaPlayerManager.seek(possition);
+    public void seek(int position) {
+        mMediaPlayerManager.seek(position);
     }
 
     @Override
@@ -160,7 +160,7 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
     }
 
     @Override
-    public int getSong() {
+    public int getCurrentPositionSong() {
         return mMediaPlayerManager.getCurrentPositionSong();
     }
 
@@ -169,30 +169,38 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
         mMediaPlayerManager.changeSong(i);
     }
 
+    public void requestCreate(int index) {
+        Track track = getTracks().get(index);
+        Message message = new Message();
+        message.what = RequestState.CREATE;
+        message.arg1 = index;
+        mServiceHandler.sendMessage(message);
+    }
+
     public void requestChangeSong(int index) {
         Message message = new Message();
-        message.what = CHANGE_SONG;
+        message.what = RequestState.CHANGE_SONG;
         message.arg1 = index;
         mServiceHandler.sendMessage(message);
     }
 
     public void requestStart() {
-        mServiceHandler.sendEmptyMessage(REQUEST_START);
+        mServiceHandler.sendEmptyMessage(RequestState.START);
     }
 
     public void requestPause() {
-        mServiceHandler.sendEmptyMessage(REQUEST_PAUSE);
+        mServiceHandler.sendEmptyMessage(RequestState.PAUSE);
     }
 
     public void requestSeek(int i) {
         Message message = new Message();
         message.arg1 = i;
-        message.what = REQUEST_SEEK;
+        message.what = RequestState.SEEK;
         mServiceHandler.sendMessage(message);
     }
 
     public void requestPrepareAsync() {
-        mServiceHandler.sendEmptyMessage(REQUEST_PREPARE_ASYNC);
+        mServiceHandler.sendEmptyMessage(RequestState.PREPARE_ASYNC);
     }
 
     public MediaPlayer getMediaPlayer() {
@@ -225,6 +233,7 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
 
         @Override
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             switch (msg.what) {
                 case RequestState.CREATE:
                     create(msg.arg1);
