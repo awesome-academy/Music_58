@@ -8,13 +8,13 @@ import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.music_58.R;
@@ -90,11 +90,12 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
             mAdapter.addTracks(tracks);
             mProgressBar.setVisibility(View.GONE);
         }
+        mTextRandomPlay.setEnabled(true);
         Intent serviceIntent = MediaPlayerService.getPlayMusicServiceIntent(getContext());
         if (mService == null) {
-            getContext().startService(serviceIntent);
+            getActivity().startService(serviceIntent);
         }
-        getContext().bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
+        getActivity().bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -149,14 +150,18 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
 
     @Override
     public void onTrackClick(int position) {
-        startActivity(MainPlayActivity.getIntent(getContext(), mTracks.get(position)));
+        mService.setTracks(mTracks);
+        mService.requestCreate(position);
+        startActivity(MainPlayActivity.getIntent(getContext()));
     }
 
     @Override
     public void onClick(View v) {
         Random random = new Random();
         int position = random.nextInt(mTracks.size());
-        startActivity(MainPlayActivity.getIntent(getContext(), mTracks.get(position)));
+        mService.setTracks(mTracks);
+        mService.requestCreate(position);
+        startActivity(MainPlayActivity.getIntent(getContext()));
     }
 
     private void initPresenter() {

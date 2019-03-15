@@ -2,6 +2,7 @@ package com.example.music_58.data.source.remote;
 
 import com.example.music_58.data.model.Track;
 import com.example.music_58.data.source.TrackDataSource;
+import com.example.music_58.util.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,12 +36,14 @@ public class TrackAsyncTask extends BaseAsyncTask<Track> {
                 JSONObject track = trackInfo.getJSONObject(TRACK);
                 int id = track.getInt(ID);
                 String title = track.getString(TITLE);
+                String streamURL = StringUtils.initStreamApi(id);
                 String artworkUrl = track.getString(ARTWORK_URL);
                 String artist = track.getJSONObject(KEY_USER).getString(KEY_USER_NAME);
                 boolean isDownloadable = track.getBoolean(DOWNLOADABLE);
                 Track object = new Track(id, title, artist);
                 object.setArtworkUrl(artworkUrl);
                 object.setDownloadable(isDownloadable);
+                object.setStreamUrl(streamURL);
                 tracks.add(object);
             }
         } catch (JSONException e) {
