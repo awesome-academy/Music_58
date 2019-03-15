@@ -25,4 +25,5 @@
     <dimen name="dp_30">30dp</dimen>
     <dimen name="sp_18">18sp</dimen>
     <dimen name="dp_320">320dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
 </resources>

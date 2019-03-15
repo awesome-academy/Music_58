@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.music_58.R;
-import com.example.music_58.data.model.Genre;
 import com.example.music_58.data.model.Track;
 
 import java.util.List;
@@ -92,7 +91,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            mListener.onTrackClick(this.getLayoutPosition());
+            mListener.onTrackClick(this.getAdapterPosition());
         }
     }
 

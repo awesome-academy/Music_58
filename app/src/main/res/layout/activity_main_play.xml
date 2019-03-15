@@ -27,11 +27,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/image_tracks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/image_tracks_playing"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginEnd="@dimen/dp_8"
         android:padding="@dimen/dp_8"
-        android:src="@drawable/ic_playlist_white"
+        android:scaleType="center"
+        android:src="@drawable/ic_playlist_play_white_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/image_back" />
 
@@ -46,7 +49,7 @@
         android:textColor="@color/color_text_white"
         android:textSize="@dimen/sp_18"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/image_tracks"
+        app:layout_constraintEnd_toStartOf="@id/image_tracks_playing"
         app:layout_constraintStart_toEndOf="@id/image_back"
         app:layout_constraintTop_toTopOf="@id/image_back" />
 
@@ -54,11 +57,12 @@
         android:id="@+id/text_artist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="@dimen/dp_8"
         android:textColor="@color/color_background_recycler"
-        app:layout_constraintEnd_toStartOf="@id/image_tracks"
+        app:layout_constraintEnd_toStartOf="@id/image_tracks_playing"
         app:layout_constraintStart_toEndOf="@id/image_back"
         app:layout_constraintTop_toBottomOf="@id/text_track_name" />
 
