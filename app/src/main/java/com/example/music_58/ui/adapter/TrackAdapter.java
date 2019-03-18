@@ -13,12 +13,19 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.music_58.R;
 import com.example.music_58.data.model.Track;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> {
     private List<Track> mTracks;
     private LayoutInflater mInflater;
-    OnTrackClickListener mListener;
+    private OnTrackClickListener mListener;
+
+    public TrackAdapter(Context context, OnTrackClickListener listener) {
+        mInflater = LayoutInflater.from(context);
+        mTracks = new ArrayList<>();
+        mListener = listener;
+    }
 
     public TrackAdapter(Context context, List<Track> tracks, OnTrackClickListener listener) {
         mTracks = tracks;
@@ -63,7 +70,6 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
         private TextView mTextSongName;
         private ImageView mImageDownload;
         private OnTrackClickListener mListener;
-        private Track mTrack;
 
         public ViewHolder(View itemView, OnTrackClickListener listener) {
             super(itemView);
@@ -77,7 +83,6 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
 
         public void setData(Track track) {
             Glide.with(itemView.getContext()).load(track.getArtworkUrl())
-                    .placeholder(R.drawable.genre_classical)
                     .apply(RequestOptions.circleCropTransform()).into(mImageGenreDetail);
             mTextNameArtist.setText(track.getArtist());
             mTextSongName.setText(track.getTitle());
@@ -86,7 +91,6 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> 
             } else {
                 mImageDownload.setVisibility(View.INVISIBLE);
             }
-            mTrack = track;
         }
 
         @Override

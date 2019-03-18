@@ -63,6 +63,11 @@ public class MediaPlayerManager extends MediaPlayerSetting
         }
     }
 
+    @Override
+    public void removeTrack(Track track) {
+        mTracks.remove(track);
+    }
+
     private void initOnline(Track track) {
         Uri uri = Uri.parse(track.getStreamUrl());
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -129,7 +134,7 @@ public class MediaPlayerManager extends MediaPlayerSetting
 
     @Override
     public boolean isPlaying() {
-        return mMediaPlayer != null && mMediaPlayer.isPlaying();
+        return mMediaPlayer.isPlaying();
     }
 
     @Override
