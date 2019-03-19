@@ -25,4 +25,16 @@ public class StringUtils {
                 Constants.NAME_STREAM, Constants.QUESTION_MARK,
                 Constants.CLIENT_ID, BuildConfig.ApiKey);
     }
+
+    public static String initDownloadApi(String url) {
+        return StringUtils.append(url, Constants.PARAMETER_ID, BuildConfig.ApiKey);
+    }
+
+    public static String initSearchApi(String keyword, int offset) {
+        return StringUtils.append(Constants.BASE_URL_TRACK,
+                Constants.PARAMETER_ID, BuildConfig.ApiKey,
+                Constants.PARAMETER_SEARCH, keyword,
+                Constants.PARAMETER_LIMIT, String.valueOf(Constants.SONG_LIMIT),
+                Constants.PARAMETER_OFFSET, String.valueOf(offset));
+    }
 }

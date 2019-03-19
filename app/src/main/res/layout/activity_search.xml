@@ -15,39 +15,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/image_search"
-        android:layout_width="@dimen/dp_50"
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_16"
-        android:background="@color/color_text_white"
-        android:scaleType="center"
-        android:src="@drawable/ic_search_black_24dp"
-        app:layout_constraintBottom_toTopOf="@id/recycler_search"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/image_clear"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginRight="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_16"
-        android:background="@color/color_text_white"
-        android:scaleType="center"
-        android:src="@drawable/ic_close_black"
-        app:layout_constraintBottom_toTopOf="@id/recycler_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/text_search"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_16"
         android:background="@color/color_text_white"
         android:focusable="true"
@@ -55,8 +29,8 @@
         android:hint="@string/string_keyword"
         android:textSize="@dimen/sp_20"
         app:layout_constraintBottom_toTopOf="@id/recycler_search"
-        app:layout_constraintEnd_toStartOf="@id/image_clear"
-        app:layout_constraintStart_toEndOf="@id/image_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
@@ -73,13 +47,11 @@
 
     <ProgressBar
         android:id="@+id/progress_search_more"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_30"
-        android:background="@color/color_background_tablayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_search" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
