@@ -1,6 +1,8 @@
 package com.example.music_58.service;
 
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,10 +12,15 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
+import android.view.View;
+import android.widget.RemoteViews;
 
+import com.example.music_58.R;
 import com.example.music_58.data.model.Track;
 import com.example.music_58.mediaplayer.MediaPlayerManager;
 import com.example.music_58.mediaplayer.MediaRequest;
+import com.example.music_58.ui.main_play.MainPlayActivity;
 import com.example.music_58.util.Constants;
 
 import java.util.List;
@@ -22,11 +29,17 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
         MediaPlayerController {
     public static final String EXTRA_REQUEST_CODE = "REQUEST_CODE";
     private static final String WORKER_THREAD_NAME = "ServiceStartArguments";
+    private static final int NOTIFICATION_ID = 1;
     private static Handler mUIHandler;
     private final IBinder mBinder = new LocalBinder();
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
     private MediaPlayerManager mMediaPlayerManager;
+    private RemoteViews mNotificationLayout;
+    private NotificationCompat.Builder mBuilder;
+    private PendingIntent mNextPendingIntent;
+    private PendingIntent mPreviousPendingIntent;
+    private PendingIntent mPlayPendingIntent;
 
     public static void setUIHandler(Handler uiHandler) {
         mUIHandler = uiHandler;
@@ -78,6 +91,11 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
 
     @Override
     public void onStartLoading(int index) {
+        if (mBuilder == null) {
+            createMusicNotification();
+        } else {
+            updateNotification(index);
+        }
         if (mUIHandler != null) {
             Message message = new Message();
             message.arg1 = index;
@@ -96,16 +114,24 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
 
     @Override
     public void onLoadingSuccess() {
+        updateNotification();
         mUIHandler.sendEmptyMessage(MediaRequest.SUCCESS);
     }
 
     @Override
+    public void removeTrack(Track track) {
+        mMediaPlayerManager.removeTrack(track);
+    }
+
+    @Override
     public void onTrackPaused() {
+        updateNotification();
         mUIHandler.sendEmptyMessage(MediaRequest.PAUSED);
     }
 
     @Override
     public void onTrackStopped() {
+        updateNotification();
         mUIHandler.sendEmptyMessage(MediaRequest.STOPPED);
     }
 
@@ -161,7 +187,7 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
 
     @Override
     public int getCurrentPositionSong() {
-        return mMediaPlayerManager.getCurrentPositionSong();
+        return mMediaPlayerManager != null ? mMediaPlayerManager.getCurrentPositionSong() : 0;
     }
 
     @Override
@@ -171,10 +197,14 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
 
     public void requestCreate(int index) {
         Track track = getTracks().get(index);
+        initLayoutNotification(R.layout.layout_notification, track);
         Message message = new Message();
         message.what = RequestState.CREATE;
         message.arg1 = index;
         mServiceHandler.sendMessage(message);
+        createNextPendingIntent();
+        createPreviousPendingIntent();
+        createPlayPendingIntent();
     }
 
     public void requestChangeSong(int index) {
@@ -218,6 +248,85 @@ public class MediaPlayerService extends Service implements MediaPlayerManager.On
 
     public MediaPlayerManager getMediaPlayerManager() {
         return mMediaPlayerManager;
+    }
+
+    private void initLayoutNotification(int resourceLayout, Track track) {
+        mNotificationLayout = new RemoteViews(getPackageName(), resourceLayout);
+        mNotificationLayout.setTextViewText(R.id.text_track_name_mini, track.getTitle());
+        mNotificationLayout.setTextViewText(R.id.text_artist_mini, track.getArtist());
+        mNotificationLayout.setImageViewResource(R.id.image_play_mini, R.drawable.ic_pause_white);
+        mNotificationLayout.setViewVisibility(R.id.image_play_mini, View.INVISIBLE);
+    }
+
+    private void createMusicNotification() {
+        mBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_album_white)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setContent(mNotificationLayout);
+        Intent resultIntent = new Intent(this, MainPlayActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(MainPlayActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPenddingIntent = stackBuilder.getPendingIntent(
+                        0, PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPenddingIntent);
+        startForeground(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private void updateNotification(int index) {
+        Track track = getTracks().get(index);
+        mNotificationLayout.setTextViewText(R.id.text_track_name_mini, track.getTitle());
+        mNotificationLayout.setTextViewText(R.id.text_artist_mini, track.getArtist());
+        if (isPlaying()) {
+            mNotificationLayout.setImageViewResource(R.id.image_play_mini, R.drawable.ic_pause_white);
+            mBuilder.setOngoing(false);
+        } else {
+            mNotificationLayout.setImageViewResource(R.id.image_play_mini, R.drawable.ic_play_white_24dp);
+            mBuilder.setOngoing(true);
+        }
+        mNotificationLayout.setViewVisibility(R.id.image_play_mini, View.INVISIBLE);
+        mBuilder.setContent(mNotificationLayout);
+        startForeground(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private void updateNotification() {
+        mNotificationLayout.setViewVisibility(R.id.image_play_mini, View.VISIBLE);
+        if (!isPlaying()) {
+            mNotificationLayout.setImageViewResource(R.id.image_play_mini, R.drawable.ic_play_white_24dp);
+            mBuilder.setOngoing(false);
+            mBuilder.setContent(mNotificationLayout);
+            startForeground(NOTIFICATION_ID, mBuilder.build());
+            stopForeground(false);
+        } else {
+            mNotificationLayout.setImageViewResource(R.id.image_play_mini, R.drawable.ic_pause_white);
+            mBuilder.setContent(mNotificationLayout);
+            startForeground(NOTIFICATION_ID, mBuilder.build());
+        }
+    }
+
+    private void createNextPendingIntent() {
+        Intent nextIntent = new Intent(getApplicationContext(), MediaPlayerService.class);
+        nextIntent.putExtra(EXTRA_REQUEST_CODE, NotificationAction.VALUE_NEXT_SONG);
+        mNextPendingIntent = PendingIntent.getService(getApplicationContext(),
+                NotificationAction.VALUE_NEXT_SONG, nextIntent, 0);
+        mNotificationLayout.setOnClickPendingIntent(R.id.image_next_mini, mNextPendingIntent);
+    }
+
+    private void createPreviousPendingIntent() {
+        Intent nextIntent = new Intent(getApplicationContext(), MediaPlayerService.class);
+        nextIntent.putExtra(EXTRA_REQUEST_CODE, NotificationAction.VALUE_PREVIOUS_SONG);
+        mPreviousPendingIntent = PendingIntent.getService(getApplicationContext(),
+                NotificationAction.VALUE_PREVIOUS_SONG, nextIntent, 0);
+        mNotificationLayout.setOnClickPendingIntent(R.id.image_prev_mini, mPreviousPendingIntent);
+    }
+
+    private void createPlayPendingIntent() {
+        Intent nextIntent = new Intent(getApplicationContext(), MediaPlayerService.class);
+        nextIntent.putExtra(EXTRA_REQUEST_CODE, NotificationAction.VALUE_PLAY_SONG);
+        mPlayPendingIntent = PendingIntent.getService(getApplicationContext(),
+                NotificationAction.VALUE_PLAY_SONG, nextIntent, 0);
+        mNotificationLayout.setOnClickPendingIntent(R.id.image_play_mini, mPlayPendingIntent);
     }
 
     public class LocalBinder extends Binder {

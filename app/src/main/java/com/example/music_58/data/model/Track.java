@@ -16,6 +16,16 @@ public class Track implements Parcelable {
     private String mAlbumTitle;
     private String mArtworkUrl;
     private boolean mIsFavorite;
+    private boolean mIsOffline;
+    private String mPermalink;
+
+    public Track() {
+
+    }
+
+    public Track(int id) {
+        mId = id;
+    }
 
     public Track(int id, String title, String artist) {
         mId = id;
@@ -36,6 +46,8 @@ public class Track implements Parcelable {
         mAlbumTitle = in.readString();
         mArtworkUrl = in.readString();
         mIsFavorite = in.readByte() != 0;
+        mIsOffline = in.readByte() != 0;
+        mPermalink = in.readString();
     }
 
     public static final Creator<Track> CREATOR = new Creator<Track>() {
@@ -146,6 +158,22 @@ public class Track implements Parcelable {
         mIsFavorite = favorite;
     }
 
+    public boolean isOffline() {
+        return mIsOffline;
+    }
+
+    public void setOffline(boolean offline) {
+        mIsOffline = offline;
+    }
+
+    public String getPermalink() {
+        return mPermalink;
+    }
+
+    public void setPermalink(String permalink) {
+        mPermalink = permalink;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -165,5 +193,7 @@ public class Track implements Parcelable {
         dest.writeString(mAlbumTitle);
         dest.writeString(mArtworkUrl);
         dest.writeByte((byte) (mIsFavorite ? 1 : 0));
+        dest.writeByte((byte) (mIsOffline ? 1 : 0));
+        dest.writeString(mPermalink);
     }
 }

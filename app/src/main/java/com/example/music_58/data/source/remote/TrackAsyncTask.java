@@ -12,15 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TrackAsyncTask extends BaseAsyncTask<Track> {
-    private static final String ARTWORK_URL = "artwork_url";
-    private static final String COLLECTION = "collection";
-    private static final String ID = "id";
-    private static final String KEY_USER = "user";
-    private static final String KEY_USER_NAME = "username";
-    private static final String TITLE = "title";
-    private static final String TRACK = "track";
-    private static final String DOWNLOADABLE = "downloadable";
-
     public TrackAsyncTask(TrackDataSource.DataCallback<Track> callback) {
         super(callback);
     }
@@ -30,20 +21,32 @@ public class TrackAsyncTask extends BaseAsyncTask<Track> {
         List<Track> tracks = new ArrayList<>();
         try {
             JSONObject result = new JSONObject(respond);
-            JSONArray collection = result.getJSONArray(COLLECTION);
+            JSONArray collection = result.getJSONArray(TrackProperty.COLLECTION);
             for (int i = 0; i < collection.length(); i++) {
                 JSONObject trackInfo = collection.getJSONObject(i);
-                JSONObject track = trackInfo.getJSONObject(TRACK);
-                int id = track.getInt(ID);
-                String title = track.getString(TITLE);
+                JSONObject track = trackInfo.getJSONObject(TrackProperty.TRACK);
+                JSONObject user = track.getJSONObject(TrackProperty.USER);
+                String avatarUrl = user.getString(TrackProperty.AVATAR_URL);
+                int id = track.getInt(TrackProperty.ID);
+                String title = track.getString(TrackProperty.TITLE);
                 String streamURL = StringUtils.initStreamApi(id);
-                String artworkUrl = track.getString(ARTWORK_URL);
-                String artist = track.getJSONObject(KEY_USER).getString(KEY_USER_NAME);
-                boolean isDownloadable = track.getBoolean(DOWNLOADABLE);
+                String artworkUrl;
+                if (track.isNull(TrackProperty.ARTWORK_URL)) {
+                    artworkUrl = avatarUrl;
+                } else artworkUrl = track.getString(TrackProperty.ARTWORK_URL);
+                String artist = track.getJSONObject(TrackProperty.KEY_USER).getString
+                        (TrackProperty.KEY_USER_NAME);
+                boolean isDownloadable = track.getBoolean(TrackProperty.DOWNLOADABLE);
+                String downloadUrl = null;
+                if (isDownloadable) {
+                    downloadUrl = StringUtils.initDownloadApi(
+                            track.getString(TrackProperty.DOWNLOAD_URL));
+                }
                 Track object = new Track(id, title, artist);
                 object.setArtworkUrl(artworkUrl);
                 object.setDownloadable(isDownloadable);
                 object.setStreamUrl(streamURL);
+                object.setDownloadUrl(downloadUrl);
                 tracks.add(object);
             }
         } catch (JSONException e) {
