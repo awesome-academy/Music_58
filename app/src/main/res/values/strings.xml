@@ -13,4 +13,17 @@
     <string name="string_music_type">MUSIC TYPE</string>
     <string name="string_shuffle_play">Shuffle Play</string>
     <string name="string_now_playing">Now playing</string>
+    <string name="error_download">This track is copyrighted</string>
+    <string name="notify_downloading">Downloading...</string>
+    <string name="notify_download_complete">Download Complete</string>
+    <string name="notify_file_exists">Song already exist</string>
+    <string name="notify_confirm_download">Do you want to continue download ?</string>
+    <string name="confirm_yes">Yes</string>
+    <string name="confirm_no">No</string>
+    <string name="string_downloading">Downloading</string>
+    <string name="add_favorite_successfull">Add successfull</string>
+    <string name="add_favorite_failed">Add failed</string>
+    <string name="delete_success">Delete successfull</string>
+    <string name="delete_failed">Delete failed</string>
+    <string name="load_local_failed">Load local failed</string>
 </resources>
