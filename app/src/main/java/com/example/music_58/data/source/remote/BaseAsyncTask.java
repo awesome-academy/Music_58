@@ -46,7 +46,7 @@ public abstract class BaseAsyncTask<T> extends AsyncTask<String, T, List<T>> {
     @Override
     protected void onPostExecute(List<T> data) {
         super.onPostExecute(data);
-        if (mException == null) {
+        if (mException == null && mDataCallback != null) {
             mDataCallback.onSuccess(data);
         } else {
             mDataCallback.onFailure(mException.getMessage());
