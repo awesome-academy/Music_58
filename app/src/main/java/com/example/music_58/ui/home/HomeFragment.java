@@ -40,6 +40,15 @@ public class HomeFragment extends Fragment implements GenreAdapter.GenreClickLis
         return rootView;
     }
 
+    @Override
+    public void onItemClick(Genre genre) {
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_container, GenreDetailFragment.getInstance(genre))
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void initData() {
         mGenres.add(new Genre(GenreKey.ALL,
                 GenreName.ALL, R.drawable.genre_all));
@@ -65,14 +74,5 @@ public class HomeFragment extends Fragment implements GenreAdapter.GenreClickLis
                 SPAN_COUNT, GridLayoutManager.VERTICAL,
                 false);
         mRecyclerGenres.setLayoutManager(gridLayoutManager);
-    }
-
-    @Override
-    public void onItemClick(Genre genre) {
-        getFragmentManager()
-                .beginTransaction()
-                .add(R.id.frame_container, GenreDetailFragment.getInstance(genre))
-                .addToBackStack(null)
-                .commit();
     }
 }

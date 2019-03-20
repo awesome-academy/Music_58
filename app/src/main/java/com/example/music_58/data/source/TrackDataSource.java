@@ -18,11 +18,11 @@ public interface TrackDataSource {
 
         void getFavoriteTracks(DataCallback<Track> callback);
 
+        boolean isAddedToFavorite(Track track);
+
         void addFavoriteTrack(Track track, DataCallback<String> callback);
 
-        void deleteFavoriteTrack(Track track, DataCallback<Boolean> callback);
-
-        void getRecentTrack(DataCallback<Long> callback);
+        void deleteFavoriteTrack(Track track, DataCallback<String> callback);
     }
 
     interface Remote extends TrackDataSource {

@@ -38,18 +38,18 @@ public class TrackRepository implements TrackDataSource.Local, TrackDataSource.R
     }
 
     @Override
+    public boolean isAddedToFavorite(Track track) {
+        return mLocalDataSource.isAddedToFavorite(track);
+    }
+
+    @Override
     public void addFavoriteTrack(Track track, DataCallback<String> callback) {
         mLocalDataSource.addFavoriteTrack(track, callback);
     }
 
     @Override
-    public void deleteFavoriteTrack(Track track, DataCallback<Boolean> callback) {
+    public void deleteFavoriteTrack(Track track, DataCallback<String> callback) {
         mLocalDataSource.deleteFavoriteTrack(track, callback);
-    }
-
-    @Override
-    public void getRecentTrack(DataCallback<Long> callback) {
-        mLocalDataSource.getRecentTrack(callback);
     }
 
     @Override

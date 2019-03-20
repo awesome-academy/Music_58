@@ -6,7 +6,7 @@ import com.example.music_58.data.source.TrackDataSource;
 
 import java.util.List;
 
-public class GenreDetailPresenter implements GenreDetailContract.Presenter {
+public class GenreDetailPresenter implements GenreDetailContract.Presenter, TrackDataSource.DataCallback<Track> {
     private GenreDetailContract.View mView;
     private TrackRepository mRepository;
 
@@ -17,16 +17,16 @@ public class GenreDetailPresenter implements GenreDetailContract.Presenter {
 
     @Override
     public void getTracks(String api) {
-        mRepository.getTracks(api, new TrackDataSource.DataCallback<Track>() {
-            @Override
-            public void onSuccess(List<Track> tracks) {
-                mView.onLoadTracksSuccess(tracks);
-            }
+        mRepository.getTracks(api, this);
+    }
 
-            @Override
-            public void onFailure(String message) {
-                mView.onLoadTracksFail(message);
-            }
-        });
+    @Override
+    public void onSuccess(List<Track> data) {
+        mView.onLoadTracksSuccess(data);
+    }
+
+    @Override
+    public void onFailure(String message) {
+        mView.onLoadTracksFail(message);
     }
 }
