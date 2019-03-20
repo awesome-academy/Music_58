@@ -2,8 +2,6 @@ package com.example.music_58.data.source.remote;
 
 import android.support.annotation.StringDef;
 
-import com.example.music_58.R;
-
 @StringDef({
         TrackProperty.ARTWORK_URL,
         TrackProperty.COLLECTION,
@@ -15,7 +13,9 @@ import com.example.music_58.R;
         TrackProperty.DOWNLOAD_URL,
         TrackProperty.AVATAR_URL,
         TrackProperty.ID,
-        TrackProperty.USER
+        TrackProperty.USER,
+        TrackProperty.ARTIST,
+        TrackProperty.PUBLISHER_METADATA
 })
 
 public @interface TrackProperty {
@@ -30,4 +30,6 @@ public @interface TrackProperty {
     String COLLECTION = "collection";
     String ID = "id";
     String USER = "user";
+    String ARTIST = "artist";
+    String PUBLISHER_METADATA = "publisher_metadata";
 }

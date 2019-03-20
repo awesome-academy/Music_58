@@ -27,6 +27,19 @@ public class Track implements Parcelable {
         mId = id;
     }
 
+    public Track(int id, int duration, String title, String artist
+            , String streamUrl, String downloadUrl, String artworkUrl
+            , boolean isDownloadable) {
+        mId = id;
+        mDuration = duration;
+        mTitle = title;
+        mArtist = artist;
+        mStreamUrl = streamUrl;
+        mDownloadUrl = downloadUrl;
+        mArtworkUrl = artworkUrl;
+        mIsDownloadable = isDownloadable;
+    }
+
     public Track(int id, String title, String artist) {
         mId = id;
         mTitle = title;

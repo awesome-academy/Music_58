@@ -1,8 +1,10 @@
 package com.example.music_58.ui.genre_detail;
 
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -55,6 +57,7 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
     private GenreDetailContract.Presenter mPresenter;
     private View mView;
     private MediaPlayerService mService;
+    ProgressDialog mProgressDialog;
 
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -91,11 +94,16 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
             mProgressBar.setVisibility(View.GONE);
         }
         mTextRandomPlay.setEnabled(true);
-        Intent serviceIntent = MediaPlayerService.getPlayMusicServiceIntent(getContext());
-        if (mService == null) {
-            getActivity().startService(serviceIntent);
+        mProgressDialog.dismiss();
+        if (getContext() != null) {
+            Intent serviceIntent = MediaPlayerService.getPlayMusicServiceIntent(getContext());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getActivity().startForegroundService(serviceIntent);
+            } else {
+                getActivity().startService(serviceIntent);
+            }
+            getActivity().bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
         }
-        getActivity().bindService(serviceIntent, mConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -123,6 +131,12 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter = null;
+    }
+
+    @Override
     public void initViewLoadMore() {
         mRecyclerView = mView.findViewById(R.id.recycler_top_songs);
         mTracks = new ArrayList<>();
@@ -145,6 +159,9 @@ public class GenreDetailFragment extends BaseLoadMoreFragment implements
         initUI(rootView);
         initViewLoadMore();
         initData();
+        mProgressDialog = new ProgressDialog(getContext());
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.show();
         return rootView;
     }
 

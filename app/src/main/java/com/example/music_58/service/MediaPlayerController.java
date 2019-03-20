@@ -1,5 +1,7 @@
 package com.example.music_58.service;
 
+import com.example.music_58.data.model.Track;
+
 public interface MediaPlayerController {
     void create(int index);
 
@@ -24,4 +26,6 @@ public interface MediaPlayerController {
     int getCurrentPositionSong();
 
     void changeSong(int i);
+
+    void removeTrack(Track track);
 }

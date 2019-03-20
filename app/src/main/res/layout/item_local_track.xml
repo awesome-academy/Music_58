@@ -12,6 +12,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8"
         android:scaleType="centerCrop"
+        android:src="@drawable/default_artwork"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +24,7 @@
         android:layout_marginStart="@dimen/dp_8"
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_8"
+        android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/color_text_black"
         android:textSize="@dimen/sp_15"
@@ -40,6 +42,7 @@
         android:layout_marginTop="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8"
+        android:ellipsize="end"
         android:textColor="@color/color_text_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
